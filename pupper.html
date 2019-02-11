@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+
+        <title>Pupper</title>
+
+        <style>
+        * {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        canvas {
+            background-color: #eee;
+            display: block;
+            margin: 0px auto;
+        }
+        
+        </style>
+    </head>
+
+    <body>
+        <canvas id="myCanvas" width="600" height="600"></canvas>
+
+        <script>
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            var x = canvas.width
+            var y = canvas.height;
+            var riverH = canvas.height/3;
+            var riverW = canvas.width;
+            var farmStart = riverH *2;
+            var rightPressed = false;
+            var leftPressed = false;
+            var upPressed = false;
+            var downPressed = false;
+            var pupX = 300;
+            var pupY = 530;
+            var carX = 25;
+            var pupWidth = 30;
+            var onLog = false;
+            var onLog1 = false;
+            var onLog2 = false;
+            var onLog3 = false;
+            var onLog4 = false;
+            var onLog5 = false;
+            var onLog6 = false;
+            var onLog7 = false;
+            var onLog8 = false;
+            var onLog9 = false;
+            var onLog10 = false;
+            var lives = 4;
+            var zone1=false;
+            var zone2=false;
+            var zone3=false;
+            var zone4=false;
+            var zone5=false;
+            var log1X = 0;
+            var log1Y = 50;
+            var log1dX = 7;
+            var log2X = 250;
+            var log2Y = 80;
+            var log2dX = -6;
+            var log3X = 350;
+            var log3Y = 110;
+            var log3dX = 5;
+            var log4X = 80;
+            var log4Y = 140;
+            var log4dX = -4;
+            var log5X = 500;
+            var log5Y = 170;
+            var log5dX = 3;
+            var log6X = 150;
+            var log6Y = 50;
+            var log6dX = 7;
+            var log7X = 450;
+            var log7Y = 80;
+            var log7dX = -6;
+            var log8X = 550;
+            var log8Y = 110;
+            var log8dX = 5;
+            var log9X = 500;
+            var log9Y = 140;
+            var log9dX = -4;
+            var log10X = 80;
+            var log10Y = 170;
+            var log10dX = 3;
+            var mLog1 = false;
+            var mLog2 = false;
+            var mLog3 = false;
+            var mLog4 = false;
+            var mLog5 = false;
+            var mLog6 = false;
+            var mLog7 = false;
+            var mLog8 = false;
+            var mLog9 = false;
+            var mLog10 = false;
+
+            document.addEventListener("keydown", keyDownHandler, false);
+
+            document.addEventListener("keyup", keyUpHandler, false);
+
+            function keyDownHandler(e) {
+                if (e.keyCode === 39) {
+                    rightPressed = true;
+                }
+                 if (e.keyCode === 38) {
+                    upPressed = true;
+                }
+                if (e.keyCode === 40) {
+                    downPressed = true;
+                }
+                else if (e.keyCode === 37) {
+                    leftPressed = true;
+                }
+            }
+
+            function keyUpHandler(e) {
+                if (e.keyCode === 39) {
+                    rightPressed = false;
+                }
+                 if (e.keyCode === 38) {
+                    upPressed = false;
+                }
+                if (e.keyCode === 40) {
+                    downPressed = false;
+                }
+                else if (e.keyCode === 37) {
+                    leftPressed = false;
+                }   
+            }
+            function drawRiver(){
+                ctx.fillStyle = "#00acb0";
+                ctx.fillRect(0,0,riverW,riverH);
+            }
+
+            function drawRoad(){
+                ctx.fillStyle = "#585858";
+                ctx.fillRect(0,riverH,riverW,riverH);
+            }
+
+            function drawFarm(){
+                ctx.fillStyle = "#689336";
+                ctx.fillRect(0,farmStart,riverW,riverH);
+            }
+
+            function drawPup(){
+                ctx.beginPath();
+                ctx.rect(pupX, pupY, pupWidth, pupWidth);
+                ctx.fillStyle = "brown";
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            function drawBar(){
+                ctx.fillStyle = "#ff3e33"
+                ctx.fillRect(0, 585, 150 * lives, 30);
+            }
+
+            function drawEndZone(){
+                ctx.fillStyle = "gray";
+                ctx.fillRect(58,0,50,50);
+                ctx.fillRect(158,0,50,50);
+                ctx.fillRect(258,0,50,50);
+                ctx.fillRect(358,0,50,50);
+                ctx.fillRect(458,0,50,50);
+            }
+
+              function runLog1(){
+                if (log1X < x){
+                    log1X += log1dX;}
+                if (log1X >= x){
+                    log1X = -85;}
+               if ((log1X >= pupX -85 && log1X <= pupX +15) && (pupY <= log1Y +30 && pupY >= log1Y)) {
+                    onLog1 = true;
+                }
+                else {
+                    onLog1=false;
+                }
+                if ((log1X >= pupX -85 && log1X <= pupX +15) && (pupY < log1Y +30 && pupY >= log1Y)) {
+                    mLog1 = true;
+                }
+                else {
+                    mLog1 = false;
+                }
+                
+                ctx.beginPath();
+                ctx.rect(log1X, log1Y, 100, 30);
+                ctx.fillStyle = "burlywood";
+                ctx.fill();
+                ctx.closePath();
+              }
+              function runLog2(){
+                if (log2X > -85){
+                    log2X += log2dX;}
+                if (log2X <= -85){
+                    log2X = x;}
+                if ((log2X >= pupX -85 && log2X <= pupX +15) && (pupY <= log2Y +30 && pupY >= log2Y)) {
+                    onLog2 = true;
+                }
+                else {
+                    onLog2=false;
+                }
+                 if ((log2X >= pupX -85 && log2X <= pupX +15) && (pupY < log2Y +30 && pupY >= log2Y)) {
+                    mLog2 = true;
+                }
+                else {
+                    mLog2 = false;
+                }
+                ctx.beginPath();
+                ctx.rect(log2X, log2Y, 100, 30);
+                ctx.fillStyle = "sienna";
+                ctx.fill();
+                ctx.closePath();
+              }
+              function runLog3(){
+                if (log3X < x){
+                    log3X += log3dX;}
+                if (log3X >= x){
+                    log3X = -85;}
+                if ((log3X >= pupX -85 && log3X <= pupX +15) && (pupY <= log3Y +30 && pupY >= log3Y)){
+                    onLog3 = true;
+                }
+                else {
+                    onLog3=false;
+                }
+                if ((log3X >= pupX -85 && log3X <= pupX +15) && (pupY < log3Y +30 && pupY >= log3Y)){
+                    mLog3 = true;
+                }
+                else {
+                    mLog3=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log3X, log3Y, 100, 30);
+                ctx.fillStyle = "burlywood";
+                ctx.fill();
+                ctx.closePath();
+              }
+              function runLog4(){
+                if (log4X > -85){
+                    log4X += log4dX;}
+                if (log4X <= -85){
+                    log4X = x;}
+                if ((log4X >= pupX -85 && log4X <= pupX +15) && (pupY <= log4Y +30 && pupY >= log4Y)){
+                    onLog4  = true;
+                }
+                else {
+                    onLog4=false;
+                }
+                if ((log4X >= pupX -85 && log4X <= pupX +15) && (pupY < log4Y +30 && pupY >= log4Y)){
+                    mLog4  = true;
+                }
+                else {
+                    mLog4=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log4X, log4Y, 100, 30);
+                ctx.fillStyle = "sienna";
+                ctx.fill();
+                ctx.closePath();
+              }
+               function runLog5(){
+                if (log5X < x){
+                    log5X += log5dX;}
+                if (log5X >= x){
+                    log5X = -85;}
+                if ((log5X >= pupX -85 && log5X <= pupX +15) && (pupY <= log5Y +30 && pupY >= log5Y)) {
+                    onLog5  = true;
+                }
+                else {
+                    onLog5=false;
+                }
+                if ((log5X >= pupX -85 && log5X <= pupX +15) && (pupY < log5Y +30 && pupY >= log5Y)) {
+                    mLog5  = true;
+                }
+                else {
+                    mLog5=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log5X, log5Y, 100, 30);
+                ctx.fillStyle = "burlywood";
+                ctx.fill();
+                ctx.closePath();
+               }
+                function runLog6(){
+                if (log6X < x){
+                    log6X += log6dX;}
+                if (log6X >= x){
+                    log6X = -85;}
+               if ((log6X >= pupX -85 && log6X <= pupX +15) && (pupY <= log6Y + 30 && pupY >= log6Y)) {
+                    onLog6 = true;
+                }
+                else {
+                    onLog6=false;
+                }
+                if ((log6X >= pupX -85 && log6X <= pupX +15) && (pupY < log6Y + 30 && pupY >= log6Y)) {
+                    mLog6 = true;
+                }
+                else {
+                    mLog6=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log6X, log6Y, 100, 30);
+                ctx.fillStyle = "burlywood";
+                ctx.fill();
+                ctx.closePath();
+              }
+               function runLog7(){
+                if (log7X > -85){
+                    log7X += log7dX;}
+                if (log7X <= -85){
+                    log7X = x;}
+                if ((log7X >= pupX -85 && log7X <= pupX +15) && (pupY <= log7Y +30 && pupY >= log7Y)) {
+                   onLog7  = true;
+                }
+                else {
+                    onLog7=false;
+                }
+                if ((log7X >= pupX -85 && log7X <= pupX +15) && (pupY < log7Y +30 && pupY >= log7Y)) {
+                   mLog7  = true;
+                }
+                else {
+                    mLog7=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log7X, log7Y, 100, 30);
+                ctx.fillStyle = "sienna";
+                ctx.fill();
+                ctx.closePath();
+              }
+               function runLog8(){
+                if (log8X < x){
+                    log8X += log8dX;}
+                if (log8X >= x){
+                    log8X = -85;}
+                if ((log8X >= pupX -85 && log8X <= pupX +15) && (pupY <= log8Y +30 && pupY >= log8Y)) {
+                    onLog8  = true;
+                }
+                else {
+                    onLog8=false;
+                }
+                if ((log8X >= pupX -85 && log8X <= pupX +15) && (pupY < log8Y +30 && pupY >= log8Y)) {
+                    mLog8  = true;
+                }
+                else {
+                    mLog8=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log8X, log8Y, 100, 30);
+                ctx.fillStyle = "burlywood";
+                ctx.fill();
+                ctx.closePath();
+              }
+              function runLog9(){
+                if (log9X > -85){
+                    log9X += log9dX;}
+                if (log9X <= -85){
+                    log9X = x;}
+                if ((log9X >= pupX -85 && log9X <= pupX +15) && (pupY <= log9Y +30 && pupY >= log9Y)) {
+                    onLog9  = true;
+                }
+                else {
+                    onLog9=false;
+                }
+                if ((log9X >= pupX -85 && log9X <= pupX +15) && (pupY < log9Y +30 && pupY >= log9Y)) {
+                    mLog9  = true;
+                }
+                else {
+                    mLog9=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log9X, log9Y, 100, 30);
+                ctx.fillStyle = "sienna";
+                ctx.fill();
+                ctx.closePath();
+                
+              }
+              function runLog10(){
+                if (log10X < x){
+                    log10X += log10dX;}
+                if (log10X >= x){
+                    log10X = -85;}
+                if ((log10X >= pupX -85 && log10X <= pupX +15) && (pupY <= log10Y +30 && pupY >= log10Y)) {
+                    onLog10 = true;
+                }
+                else {
+                    onLog10=false;
+                }
+                if ((log10X >= pupX -85 && log10X <= pupX +15) && (pupY < log10Y +30 && pupY >= log10Y)) {
+                    mLog10 = true;
+                }
+                else {
+                    mLog10=false;
+                }
+                ctx.beginPath();
+                ctx.rect(log10X, log10Y, 100, 30);
+                ctx.fillStyle = "burlywood";
+                ctx.fill();
+                ctx.closePath();
+              }
+              
+              function onLogTF(){
+                  if (((onLog1 || onLog2)  && mLog2) || 
+                        ((onLog2 || onLog3) && mLog3) || 
+                        ((onLog3 || onLog4) && mLog4) || 
+                        ((onLog4 || onLog5) && mLog5) || 
+                        onLog5 || 
+                        ((onLog6 || onLog7) && mLog7) || 
+                        ((onLog7 || onLog8) && mLog8) || 
+                        ((onLog8 || onLog9) && mLog9) || 
+                        ((onLog9 || onLog10) && mLog10) || 
+                        onLog10) {
+                      onLog = true;
+                  }
+                  else {
+                      onLog = false;
+                  }
+              }
+
+              function runLogs(){
+                  runLog1();
+                  runLog2();
+                  runLog3();
+                  runLog4();
+                  runLog5();
+                  runLog6();
+                  runLog7();
+                  runLog8();
+                  runLog9();
+                  runLog10();
+              }
+
+function inEndZone(){
+                if (pupY < 50) {
+                    if (pupX>58 && pupX<108){
+                        zone1=true;
+                        return true;
+                    }
+                     if (pupX>158 && pupX<208){
+                        zone2=true;
+                        return true;
+                    }
+                     if (pupX>258 && pupX<308){
+                        zone3=true;
+                        return true;
+                    }
+                     if (pupX>358 && pupX<408){
+                        zone4=true;
+                        return true;
+                    }
+                     if (pupX>458 && pupX<508){
+                        zone5=true;
+                        return true;
+                    }
+                }
+            }
+
+            function fillZone(){
+                if (zone1){
+                ctx.fillStyle = "red";
+                ctx.fillRect(58,0,50,50);
+                }
+                  if (zone2){
+                ctx.fillStyle = "red";
+                ctx.fillRect(158,0,50,50);
+                }
+                  if (zone3){
+                ctx.fillStyle = "red";
+                ctx.fillRect(258,0,50,50);
+                }
+                  if (zone4){
+                ctx.fillStyle = "red";
+                ctx.fillRect(358,0,50,50);
+                }
+                  if (zone5){
+                ctx.fillStyle = "red";
+                ctx.fillRect(458,0,50,50);
+                }
+            }
+
+            function die(){
+                pupY = 530;
+                pupX = 300;
+                lives -= 1;                 
+            }
+
+            function endgame(){
+            if (zone1 && zone2 && zone3 && zone4 && zone5){
+                    ctx.clearRect(0,0,canvas.width, canvas.height);
+                 ctx.font = "50px Arial";
+                 lives = 1000;
+                 pupY= 10;
+                 ctx.strokeText("You won! :)", 200, 300);;
+                 }
+
+            if (lives < 1)        
+                 {ctx.clearRect(0,0,canvas.width, canvas.height);
+                 ctx.font = "50px Arial";
+                 lives = -1000;
+                 pupY= -1000;
+                 ctx.strokeText("You died :(", 200, 300);}
+            }
+
+            function runPup(dx){
+                if (pupX < x){
+                    pupX += dx;}
+                if (pupX >= x){
+                    pupX = 25;}
+            }
+
+            
+
+                function playGame(){
+                ctx.clearRect(0, 0, canvas.width, canvas.height); 
+                drawRiver();
+                drawRoad();
+                drawFarm();
+                runLogs();
+                drawPup();
+                drawBar();
+                runCars();
+                drawEndZone();
+                fillZone();
+                endgame();
+                onLogTF();
+                if (leftPressed && pupX > 0) {
+                    pupX = pupX - pupWidth;
+                }
+                
+                  if (rightPressed && pupX < 550) {
+                    pupX = pupX + pupWidth;
+                }
+                  if (upPressed) {
+                    pupY = pupY - pupWidth;
+                }
+                  if (downPressed && pupY < 550) {
+                    pupY = pupY + pupWidth;
+                }
+                if (pupY <= 190 & (onLog === false)){
+                die();
+                }
+                if (carX < x){
+                    carX +=10;
+                }
+           
+                if (carX >=x){
+                    carX = 25;
+                }
+                if (inEndZone()){
+                    var zPupX= pupX;
+                    var zPupY = pupY;
+                    fillZone(zPupX,zPupY);
+                    pupY=530;
+                    pupX=300;
+                }
+                if (!onLog){
+                    runPup(0);
+                }
+                else {
+                    if (mLog1){
+                        runPup(log1dX);
+                    }
+                    if (mLog2){
+                        runPup(log2dX);
+                    }
+                    if (mLog3){
+                        runPup(log3dX);
+                    }
+                    if (mLog4){
+                        runPup(log4dX);
+                    }
+                    if (mLog5){
+                        runPup(log5dX);
+                    }
+                    if (mLog6){
+                        runPup(log6dX);
+                    }
+                    if (mLog7){
+                        runPup(log7dX);
+                    }
+                    if (mLog8){
+                        runPup(log8dX);
+                    }
+                    if (mLog9){
+                        runPup(log9dX);
+                    }
+                    if (mLog10){
+                        runPup(log10dX);
+                    }
+                }
+            }
+            
+
+            function runCar1(){
+                if (car1X < x){
+                    car1X += car1dX;}
+                if (car1X >= x){
+                    car1X = -65;}
+                if ((car1X >= pupX - 65 && car1X <= pupX + 30) && (car1Y >= pupY -40 && car1Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car1X, car1Y, 65, 40);
+                ctx.fillStyle = "violet";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar2(){
+                if (car2X < x){
+                    car2X += car2dX;}
+                if (car2X >= x){
+                    car2X = -65;}
+                if ((car2X >= pupX - 65 && car2X <= pupX + 30) && (car2Y >= pupY -40 && car2Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car2X, car2Y, 65, 40);
+                ctx.fillStyle = "cornflowerblue";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar3(){
+                if (car3X > -65){
+                    car3X += car3dX;}
+                if (car3X <= -65){
+                    car3X = x;}
+                if ((car3X >= pupX - 65 && car3X <= pupX + 30) && (car3Y >= pupY -40 && car3Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car3X, car3Y, 65, 40);
+                ctx.fillStyle = "crimson";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar4(){
+                if (car4X < x){
+                    car4X += car4dX;}
+                if (car4X >= x){
+                    car4X = -65;}
+                if ((car4X >= pupX - 65 && car4X <= pupX + 30) && (car4Y >= pupY -40 && car4Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car4X, car4Y, 65, 40);
+                ctx.fillStyle = "aquamarine";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar5(){
+                if (car5X < x){
+                    car5X += car5dX;}
+                if (car5X >= x){
+                    car5X = -65;}
+                if ((car5X >= pupX - 65 && car5X <= pupX + 30) && (car5Y >= pupY -40 && car5Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car5X, car5Y, 65, 40);
+                ctx.fillStyle = "coral";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar6(){
+                if (car6X < x){
+                    car6X += car6dX;}
+                if (car6X >= x){
+                    car6X = -65;}
+                if ((car6X >= pupX - 65 && car6X <= pupX + 30) && (car6Y >= pupY -40 && car6Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car6X, car6Y, 65, 40);
+                ctx.fillStyle = "darkgoldenrod";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar7(){
+                if (car7X > -65){
+                    car7X += car7dX;}
+                if (car7X <= -65){
+                    car7X = x;}
+                if ((car7X >= pupX - 65 && car7X <= pupX + 30) && (car7Y >= pupY -40 && car7Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car7X, car7Y, 65, 40);
+                ctx.fillStyle = "limegreen";
+                ctx.fill();
+                ctx.closePath();
+            }
+            function runCar8(){
+                if (car8X > -65){
+                    car8X += car8dX;}
+                if (car8X <= -65){
+                    car8X = x;}
+                if ((car8X >= pupX - 65 && car8X <= pupX + 30) && (car8Y >= pupY -40 && car8Y <= pupY + 30)) {
+                    die()
+                }
+                ctx.beginPath();
+                ctx.rect(car8X, car8Y, 65, 40);
+                ctx.fillStyle = "yellow";
+                ctx.fill();
+                ctx.closePath();
+            }
+
+            function runCars(){
+                runCar1()
+                runCar2()
+                runCar3()
+                runCar4()
+                runCar5()
+                runCar6()
+                runCar7()
+                runCar8();}
+
+                var car1X = 0;
+                var car1Y = 205;
+                var car1dX = 3;
+                var car2X = 300;
+                var car2Y = 205;
+                var car2dX = 3;
+                var car3X = 0;
+                var car3Y = 255;
+                var car3dX = -20;
+                var car4X = 0;
+                var car4Y = 305;
+                var car4dX = 2;
+                var car5X = 200;
+                var car5Y = 305;
+                var car5dX = 2;
+                var car6X = 400;
+                var car6Y = 305;
+                var car6dX = 2;
+                var car7X = 150;
+                var car7Y = 355;
+                var car7dX = -7;
+                var car8X = 450;
+                var car8Y = 355;
+                var car8dX = -7;
+
+            setInterval(playGame, 75);
+            drawRiver();
+            drawRoad();
+            drawFarm();
+            
+
+            
+            </script>
+            
